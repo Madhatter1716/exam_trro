@@ -1,5 +1,7 @@
 package com.interview.metrobank.enumerated;
 
+import java.util.Arrays;
+
 public enum AccountType {
 	
 	SAVINGS("savings"), CHECKING("checking");
@@ -14,6 +16,13 @@ public enum AccountType {
 	public String getType() {
 		return type;
 	}
+	
+	public static AccountType fetchAccountType(String constant) {
+	       return Arrays.stream(AccountType.values())
+	                    .filter(e -> e.getType().equals(constant))
+	                    .findFirst()
+	                    .orElse(null);
+	    }
 
 
 }

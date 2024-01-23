@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.interview.metrobank.exception.EmailInvalidException;
 import com.interview.metrobank.exception.EntityNotFoundException;
+import com.interview.metrobank.exception.EnumNotFoundException;
 import com.interview.metrobank.responseDTO.StatusResponseDTO;
 
 
@@ -35,9 +37,15 @@ public class RestControllerAdvice extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(value = { EntityNotFoundException.class })
-	protected ResponseEntity<Object> handleRecipeException(Exception ex, WebRequest request) {
+	protected ResponseEntity<Object> handleEntityNotFoundException(Exception ex, WebRequest request) {
 		
 		return ResponseEntity.status(401).body(new StatusResponseDTO(401, ex.getMessage()));
+	}
+	
+	@ExceptionHandler(value = { EmailInvalidException.class, EnumNotFoundException.class })
+	protected ResponseEntity<Object> handleInvalidInput(Exception ex, WebRequest request) {
+		
+		return ResponseEntity.status(406).body(new StatusResponseDTO(406, ex.getMessage()));
 	}
 
 
